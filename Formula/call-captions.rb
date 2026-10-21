@@ -1,15 +1,18 @@
 class CallCaptions < Formula
   desc "Live Japanese-to-English call captions, on-device on Apple Silicon"
   homepage "https://github.com/jinreiyu/call-captions"
-  url "https://github.com/jinreiyu/call-captions/archive/249d12c20812289b15e14c8d15c7d2eee917348d.tar.gz"
-  version "1.1.0"
-  sha256 "fc7a73c96e883b64adef9bc78bd202a2279511b45cb27528a390c3fb615a222f"
+  url "https://github.com/jinreiyu/call-captions/archive/8b6f78ea459a2b8f1efc5110fe6077dcb91b0af0.tar.gz"
+  version "1.2.0"
+  sha256 "ca3eb166dff56f4d7c5b84c852c995d55296967fb147a7cc67c9ee9be3262a54"
 
   depends_on arch: :arm64
   depends_on :macos
   depends_on "uv"
 
   def install
+    # Small helper that creates the "Call Captions Output" sound routing and switches to it.
+    system ENV.cc, "-O2", "-Wall", "-o", "bin/call-captions-audio", "src/audio.c",
+           "-framework", "CoreAudio", "-framework", "CoreFoundation"
     libexec.install "bin", "app", "live_captions.py", "requirements.txt"
     bin.write_exec_script libexec/"bin/call-captions"
   end
@@ -37,7 +40,8 @@ class CallCaptions < Formula
     <<~EOS
       Start it with:
         call-captions
-      The first run adds "Call Captions" to your Applications folder.
+      The first run adds "Call Captions" to your Applications folder and sets up the
+      sound routing ("Call Captions Output": your headset + BlackHole) for you.
 
       #{audio}
 
