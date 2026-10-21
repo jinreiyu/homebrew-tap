@@ -8,7 +8,7 @@ brew install jinreiyu/tap/call-captions
 
 | Formula | What it is |
 | --- | --- |
-| [call-captions](https://github.com/jinreiyu/call-captions) | Live Japanese-to-English call captions, on-device on Apple Silicon Macs. Always the latest version (now 1.5.1). |
+| [call-captions](https://github.com/jinreiyu/call-captions) | Live Japanese-to-English call captions, on-device on Apple Silicon Macs. Always the latest version (now 1.6.0). |
 | call-captions-1.2.0 | Milestone 1.2.0, a known-good version kept installable for rollback. |
 
 ## Milestones and rollback

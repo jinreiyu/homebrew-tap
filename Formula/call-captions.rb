@@ -1,19 +1,20 @@
 class CallCaptions < Formula
   desc "Live Japanese-to-English call captions, on-device on Apple Silicon"
   homepage "https://github.com/jinreiyu/call-captions"
-  url "https://github.com/jinreiyu/call-captions/archive/03de11bddcbefbc82f3d7751261633d6c584d667.tar.gz"
-  version "1.5.1"
-  sha256 "7607bef7177cc37a6f0ac5216b459388e5847c5c8102194f17cc7553f6917ed9"
+  url "https://github.com/jinreiyu/call-captions/archive/474384795fee0918e7b8a02fa5dc07cd92915de2.tar.gz"
+  version "1.6.0"
+  sha256 "5a2c3466ebf91bfc50f834c334928e4512001ad13d883e656afa228be6468ff8"
 
   depends_on arch: :arm64
   depends_on :macos
+  depends_on "llama.cpp" # runs the word lookup's small models on the CPU
   depends_on "uv"
 
   def install
     # Small helper that creates the "Call Captions Output" sound routing and switches to it.
     system ENV.cc, "-O2", "-Wall", "-o", "bin/call-captions-audio", "src/audio.c",
            "-framework", "CoreAudio", "-framework", "CoreFoundation"
-    libexec.install "bin", "app", "live_captions.py", "requirements.txt"
+    libexec.install "bin", "app", "live_captions.py", "lookup.py", "requirements.txt"
     bin.write_exec_script libexec/"bin/call-captions"
   end
 
