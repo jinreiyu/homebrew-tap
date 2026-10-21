@@ -29,4 +29,4 @@ brew uninstall call-captions-1.2.0 && brew install jinreiyu/tap/call-captions &&
 ```
 
 Your settings (`~/call-captions`) and the "Call Captions Output" sound routing are kept when you
-switch. The models are downloaded again (about 3 GB) because each formula keeps its own copy.
+switch. The models are downloaded again (2 to 3 GB) because each formula keeps its own copy.
