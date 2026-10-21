@@ -1,9 +1,9 @@
 class CallCaptions < Formula
   desc "Live Japanese-to-English call captions, on-device on Apple Silicon"
   homepage "https://github.com/jinreiyu/call-captions"
-  url "https://github.com/jinreiyu/call-captions/archive/a0e97d8c2b2f30828fd7e671f79f7c055905c425.tar.gz"
-  version "1.0.0"
-  sha256 "ccbc375ec3a08f7138a0a7345f17b5f899dd640416fd6ba80d52ca609a9bf414"
+  url "https://github.com/jinreiyu/call-captions/archive/249d12c20812289b15e14c8d15c7d2eee917348d.tar.gz"
+  version "1.1.0"
+  sha256 "fc7a73c96e883b64adef9bc78bd202a2279511b45cb27528a390c3fb615a222f"
 
   depends_on arch: :arm64
   depends_on :macos
@@ -14,14 +14,36 @@ class CallCaptions < Formula
     bin.write_exec_script libexec/"bin/call-captions"
   end
 
-  def caveats
-    <<~EOS
-      Finish setup once. It installs Python and about 2 GB of models into
-      ~/call-captions and adds "Call Captions" to your Applications folder:
-        call-captions setup
+  # Python, its packages and the models go into this formula's own folder, so
+  # `brew uninstall call-captions` removes them too. Upgrades reuse the models.
+  if respond_to?(:post_install_steps)
+    post_install_steps do
+      run "bin/call-captions", args: ["install-env"], base: :libexec, print_stdout: true,
+          env: { "HOMEBREW_PREFIX" => "{{HOMEBREW_PREFIX}}" }
+    end
+  else
+    def post_install
+      system libexec/"bin/call-captions", "install-env"
+    end
+  end
 
-      Call audio is read from a BlackHole loopback driver. If you don't have one:
-        brew install --cask blackhole-2ch
+  def caveats
+    found = Dir["/Library/Audio/Plug-Ins/HAL/BlackHole*.driver"].map { |d| File.basename(d, ".driver") }
+    audio = if found.empty?
+      "No BlackHole audio driver found; the first run offers to install BlackHole 2ch."
+    else
+      "Call audio will come through your existing #{found.join(" / ")}. Nothing else to install."
+    end
+    <<~EOS
+      Start it with:
+        call-captions
+      The first run adds "Call Captions" to your Applications folder.
+
+      #{audio}
+
+      Remove everything (app, settings, Python, models):
+        call-captions uninstall
+      BlackHole is never removed.
     EOS
   end
 
