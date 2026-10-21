@@ -1,9 +1,9 @@
 class CallCaptions < Formula
   desc "Live Japanese-to-English call captions, on-device on Apple Silicon"
   homepage "https://github.com/jinreiyu/call-captions"
-  url "https://github.com/jinreiyu/call-captions/archive/485081fef6f7af0d8c3069a849996c6e1bd2bb7c.tar.gz"
-  version "1.6.1"
-  sha256 "3a143df7610a6d5983473fdb92d8bf2a26bae56a687e0508ad4ba257e46e8460"
+  url "https://github.com/jinreiyu/call-captions/archive/56c623846c6323f1d5be1c4a61858e1673af610e.tar.gz"
+  version "1.6.2"
+  sha256 "eb3456e635e4305fd41aa5601b2006d9dd22b2da7a5d35841dec54c3e36b7f62"
 
   depends_on arch: :arm64
   depends_on :macos
